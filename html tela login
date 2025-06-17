@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz ODS - Cadastro/Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro</h2>
+        <input type="text" id="cadUsuario" placeholder="Usuário">
+        <input type="password" id="cadSenha" placeholder="Senha">
+        <label for="cadPremium">Premium?</label>
+        <select id="cadPremium">
+            <option value="n">Não</option>
+            <option value="s">Sim</option>
+        </select>
+        <button onclick="cadastrar()">Cadastrar</button>
+
+        <h2>Login</h2>
+        <input type="text" id="loginUsuario" placeholder="Usuário">
+        <input type="password" id="loginSenha" placeholder="Senha">
+        <button onclick="logar()">Entrar</button>
+
+        <p id="mensagem" style="color: green; text-align: center;"></p>
+    </div>
+
+    <script>
+        let usuarios = {};
+
+        function cadastrar() {
+            const usuario = document.getElementById("cadUsuario").value;
+            const senha = document.getElementById("cadSenha").value;
+            const premium = document.getElementById("cadPremium").value;
+
+            if (usuarios[usuario]) {
+                document.getElementById("mensagem").innerText = "Usuário já existe!";
+                return;
+            }
+
+            usuarios[usuario] = {
+                senha: senha,
+                premium: premium === "s"
+            };
+
+            document.getElementById("mensagem").innerText = "Usuário cadastrado com sucesso!";
+            limparCampos();
+        }
+
+        function logar() {
+            const usuario = document.getElementById("loginUsuario").value;
+            const senha = document.getElementById("loginSenha").value;
+
+            if (usuarios[usuario] && usuarios[usuario].senha === senha) {
+                const status = usuarios[usuario].premium ? "Premium" : "Gratuito";
+                document.getElementById("mensagem").innerText = Bem-vindo, ${usuario}! Conta: ${status};
+            } else {
+                document.getElementById("mensagem").innerText = "Usuário ou senha inválidos!";
+            }
+        }
+
+        function limparCampos() {
+            document.getElementById("cadUsuario").value = "";
+            document.getElementById("cadSenha").value = "";
+            document.getElementById("cadPremium").value = "n";
+        }
+    </script>
+</body>
+</html>
